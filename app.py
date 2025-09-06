@@ -14,18 +14,6 @@ def load_cars():
         return json.load(f)
 
 def load_business():
-    if not os.path.exists(BUSINESS_PATH):
-        return {
-            "name": "Your Business Name",
-            "tagline": "Rent or buy your next car — fast & easy",
-            "phone": "+355 6xx xxx xxx",
-            "email": "info@yourshop.com",
-            "whatsapp": "+355 6xx xxx xxx",
-            "address": "Tirana, Albania",
-            "hours": "Mon–Sat 09:00–18:00",
-            "domain": "",
-            "description": "Car rental and dealership in Tirana."
-        }
     with open(BUSINESS_PATH, "r", encoding="utf-8") as f:
         return json.load(f)
 
@@ -41,13 +29,12 @@ def home():
 
 @app.route("/inventory")
 def inventory():
-    car_type = request.args.get("type")
-    return render_template("inventory.html", car_type=car_type, title=f"Inventory — {BUSINESS['name']}")
+    tab = request.args.get("tab", "rent")
+    return render_template("inventory.html", active_tab=tab, title=f"Inventory — {BUSINESS['name']}")
 
 @app.route("/cars/<car_id>")
 def car_detail(car_id):
-    cars = load_cars()
-    car = next((c for c in cars if c.get("id") == car_id), None)
+    car = next((c for c in load_cars() if c.get("id")==car_id), None)
     if not car: abort(404)
     return render_template("car_detail.html", car=car, title=f"{car.get('year','')} {car.get('make','')} {car.get('model','')} — {BUSINESS['name']}")
 
@@ -59,24 +46,25 @@ def about():
 def contact():
     return render_template("contact.html", title=f"Contact — {BUSINESS['name']}")
 
+# API
 @app.route("/api/cars")
 def api_cars():
     cars = load_cars()
-    q = request.args.get("q", "").lower()
-    t = request.args.get("type", "").lower()
+    q = request.args.get("q","").lower()
+    t = request.args.get("type","").lower()
     def matches(c):
-        if t and c.get("type","").lower() != t: return False
+        if t and c.get("type","").lower()!=t: return False
         if not q: return True
         hay = " ".join([str(c.get(k,"")) for k in ["make","model","year","fuel","color","transmission"]]).lower()
         return q in hay
     return jsonify([c for c in cars if matches(c)])
 
+# robots & sitemap
 @app.route("/robots.txt")
 def robots():
     lines = ["User-agent: *","Allow: /"]
     dom = BUSINESS.get("domain","").strip()
-    sitemap = f"https://{dom}/sitemap.xml" if dom else f"{request.url_root.rstrip('/')}/sitemap.xml"
-    lines.append(f"Sitemap: {sitemap}")
+    lines.append("Sitemap: " + (f"https://{dom}/sitemap.xml" if dom else f"{request.url_root.rstrip('/')}/sitemap.xml"))
     return Response("\n".join(lines), mimetype="text/plain")
 
 @app.route("/sitemap.xml")
@@ -92,12 +80,12 @@ def sitemap():
         pages.append((url_for('car_detail', car_id=c.get('id'), _external=True), datetime.utcnow()))
     xml = ['<?xml version="1.0" encoding="UTF-8"?>','<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">']
     for loc,dt in pages:
-        xml.append("<url><loc>%s</loc><lastmod>%s</lastmod></url>" % (loc, dt.strftime("%Y-%m-%d")))
+        xml.append(f"<url><loc>{loc}</loc><lastmod>{dt.strftime('%Y-%m-%d')}</lastmod></url>")
     xml.append("</urlset>")
     return Response("\n".join(xml), mimetype="application/xml")
 
 @app.errorhandler(404)
-def not_found(e):
+def nf(e):
     return render_template("404.html", title="Not found"), 404
 
 if __name__ == "__main__":

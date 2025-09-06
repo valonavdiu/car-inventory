@@ -1,11 +1,20 @@
 {
   "name": "Rent a Car Flamuri",
-  "tagline": "Rent or buy your next car fast & easy",
-  "phone": "+383 45 432 432",
-  "email": "auto.flamuri@gmail.com",
-  "whatsapp": "+383 45 432 432",
-  "address": "Vushtrri and Prishtina, Kosovë",
-  "hours": "Mon\u2013Sat 09:00\u201318:00",
+  "tagline": "Modern rentals & quality used cars in Kosovo",
+  "phone": "+38345432432",
+  "email": "info@flamuri-rc.com",
+  "whatsapp": "+38345432432",
+  "locations": [
+    {
+      "city": "Vushtrri",
+      "address": "Vushtrri, Kosovo"
+    },
+    {
+      "city": "Prishtina",
+      "address": "Prishtina, Kosovo"
+    }
+  ],
+  "hours": "Mon\u2013Sat 09:00\u201319:00 \u00b7 Sun 10:00\u201316:00",
   "domain": "",
-  "description": "Car rental and dealership in Vushtrri and Prishtina."
+  "description": "Rent a Car Flamuri offers reliable car rentals and trusted car sales in Vushtrri and Prishtina, Kosovo. WhatsApp for fast booking."
 }

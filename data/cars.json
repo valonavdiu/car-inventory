@@ -1,86 +1,65 @@
 [
   {
-    "id": "rent-corolla-2021-white",
+    "id": "rent-auris-2020-white",
     "type": "rent",
     "make": "Toyota",
-    "model": "Corolla",
-    "year": 2021,
-    "fuel": "Petrol",
-    "transmission": "Automatic",
-    "seats": 5,
-    "color": "White",
-    "odometer": 32000,
-    "price_per_day": 35,
-    "images": [
-      "https://images.pexels.com/photos/170811/pexels-photo-170811.jpeg?auto=compress&cs=tinysrgb&w=800"
-    ],
-    "contact": {
-      "name": "Rental Desk",
-      "phone": "+355 6xx xxx xxx",
-      "email": "rentals@yourshop.com"
-    }
-  },
-  {
-    "id": "rent-golf-2018-blue",
-    "type": "rent",
-    "make": "Volkswagen",
-    "model": "Golf 7",
-    "year": 2018,
-    "fuel": "Diesel",
-    "transmission": "Manual",
-    "seats": 5,
-    "color": "Blue",
-    "odometer": 74000,
-    "price_per_day": 28,
-    "images": [
-      "https://images.pexels.com/photos/358070/pexels-photo-358070.jpeg?auto=compress&cs=tinysrgb&w=800"
-    ],
-    "contact": {
-      "name": "Rental Desk",
-      "phone": "+355 6xx xxx xxx",
-      "email": "rentals@yourshop.com"
-    }
-  },
-  {
-    "id": "sale-civic-2020-grey",
-    "type": "sale",
-    "make": "Honda",
-    "model": "Civic",
+    "model": "Auris",
     "year": 2020,
     "fuel": "Petrol",
     "transmission": "Automatic",
     "seats": 5,
-    "color": "Grey",
-    "odometer": 41000,
-    "price": 15500,
+    "color": "White",
+    "odometer": 42000,
+    "price_per_day": 35,
     "images": [
-      "https://images.pexels.com/photos/97075/pexels-photo-97075.jpeg?auto=compress&cs=tinysrgb&w=800"
+      "https://images.pexels.com/photos/358070/pexels-photo-358070.jpeg?auto=compress&cs=tinysrgb&w=800"
     ],
     "contact": {
-      "name": "Sales",
-      "phone": "+355 6xx xxx xxx",
-      "email": "sales@yourshop.com"
+      "name": "Flamuri Rentals",
+      "phone": "+38345432432",
+      "email": "rentals@flamuri-rc.com"
     }
   },
   {
-    "id": "sale-seed-2019-black",
-    "type": "sale",
-    "make": "Kia",
-    "model": "Ceed",
+    "id": "rent-golf7-2019-grey",
+    "type": "rent",
+    "make": "Volkswagen",
+    "model": "Golf 7",
     "year": 2019,
     "fuel": "Diesel",
     "transmission": "Manual",
     "seats": 5,
-    "color": "Black",
-    "odometer": 60000,
-    "price": 11800,
+    "color": "Grey",
+    "odometer": 76000,
+    "price_per_day": 30,
     "images": [
-      "https://images.pexels.com/photos/130656/pexels-photo-130656.jpeg?auto=compress&cs=tinysrgb&w=800"
+      "https://images.pexels.com/photos/97075/pexels-photo-97075.jpeg?auto=compress&cs=tinysrgb&w=800"
     ],
     "contact": {
-      "name": "Sales",
-      "phone": "+355 6xx xxx xxx",
-      "email": "sales@yourshop.com"
+      "name": "Flamuri Rentals",
+      "phone": "+38345432432",
+      "email": "rentals@flamuri-rc.com"
+    }
+  },
+  {
+    "id": "sale-corsa-2020-red",
+    "type": "sale",
+    "make": "Opel",
+    "model": "Corsa",
+    "year": 2020,
+    "fuel": "Petrol",
+    "transmission": "Manual",
+    "seats": 5,
+    "color": "Red",
+    "odometer": 51000,
+    "price": 8450,
+    "images": [
+      "https://images.pexels.com/photos/170811/pexels-photo-170811.jpeg?auto=compress&cs=tinysrgb&w=800"
+    ],
+    "contact": {
+      "name": "Flamuri Sales",
+      "phone": "+38345432432",
+      "email": "sales@flamuri-rc.com"
     }
   }
 ]

@@ -1,3 +1,4 @@
+
 <!doctype html>
 <html lang="en">
   <head>
@@ -5,72 +6,66 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>{{ title or (business.name ~ " — Rentals & Sales") }}</title>
     <meta name="description" content="{{ business.description }}">
-    <link rel="icon" href="{{ url_for('static', filename='img/favicon.png') }}" sizes="32x32">
-
-    <!-- Open Graph -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>tailwind.config = { theme: { extend: { colors: { brand: { DEFAULT: '#0f172a' }, accent: { DEFAULT: '#2563eb' }}}}};</script>
+    <link rel="icon" href="{{ url_for('static', filename='favicon.png') }}" sizes="32x32">
     <meta property="og:title" content="{{ title or (business.name ~ ' — Rentals & Sales') }}">
     <meta property="og:description" content="{{ business.description }}">
     <meta property="og:type" content="website">
-    <meta property="og:image" content="{{ url_for('static', filename='img/og-banner.jpg', _external=True) }}">
+    <meta property="og:image" content="{{ url_for('static', filename='og-banner.jpg', _external=True) }}">
     <meta property="og:url" content="{{ request.url }}">
-
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="{{ url_for('static', filename='css/style.css') }}" rel="stylesheet">
-
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
       "@type": "AutoDealer",
       "name": "{{ business.name }}",
       "description": "{{ business.description }}",
-      "address": "{{ business.address }}",
+      "address": "{{ ', '.join([l.address for l in business.locations]) if business.locations else '' }}",
       "telephone": "{{ business.phone }}",
       "email": "{{ business.email }}"
     }
     </script>
   </head>
-  <body>
-    <nav class="navbar navbar-expand-lg bg-body-tertiary">
-      <div class="container">
-        <a class="navbar-brand d-flex align-items-center gap-2" href="/">
-          <img src="{{ url_for('static', filename='img/logo.svg') }}" alt="{{ business.name }}" height="28">
-          <strong>{{ business.name }}</strong>
+  <body class="bg-slate-50 text-slate-900">
+    <!-- Nav -->
+    <header class="sticky top-0 z-40 backdrop-blur bg-white/80 border-b">
+      <div class="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
+        <a href="/" class="flex items-center gap-2 font-semibold text-lg">
+          <img src="{{ url_for('static', filename='logo.png') }}" alt="{{ business.name }}" class="h-7 w-auto rounded">
+          <span>{{ business.name }}</span>
         </a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#nav" aria-controls="nav" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="nav">
-          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-            <li class="nav-item"><a class="nav-link" href="/inventory">Inventory</a></li>
-            <li class="nav-item"><a class="nav-link" href="/about">About</a></li>
-            <li class="nav-item"><a class="nav-link" href="/contact">Contact</a></li>
-          </ul>
-          <div class="d-flex gap-2">
-            <a href="/inventory?type=rent" class="btn btn-outline-primary btn-sm">Rentals</a>
-            <a href="/inventory?type=sale" class="btn btn-dark btn-sm">For Sale</a>
-          </div>
-        </div>
+        <nav class="hidden md:flex items-center gap-6">
+          <a href="/inventory?tab=rent" class="hover:text-accent">Rent</a>
+          <a href="/inventory?tab=sale" class="hover:text-accent">Buy</a>
+          <a href="/about" class="hover:text-accent">About</a>
+          <a href="/contact" class="hover:text-accent">Contact</a>
+        </nav>
+        <a class="hidden md:inline-flex items-center gap-2 px-3 py-2 rounded-xl bg-accent text-white" href="https://wa.me/{{ business.phone | replace('+','') }}">WhatsApp</a>
       </div>
-    </nav>
+    </header>
 
-    <main class="container my-4">
+    <main class="max-w-6xl mx-auto px-4 py-8">
       {% block content %}{% endblock %}
     </main>
 
-    <footer class="footer">
-      <div class="container d-flex justify-content-between flex-wrap">
+    <footer class="border-t">
+      <div class="max-w-6xl mx-auto px-4 py-8 grid md:grid-cols-3 gap-6 text-sm text-slate-600">
         <div>
-          <div><strong>{{ business.name }}</strong> — Rentals & Sales</div>
-          <div class="text-muted">{{ business.address }} · Phone: {{ business.phone }}</div>
+          <div class="font-semibold text-slate-800">{{ business.name }}</div>
+          <div class="mt-1">Phone: <a class="hover:text-accent" href="tel:{{ business.phone | replace(' ','') }}">{{ business.phone }}</a></div>
+          <div>Email: <a class="hover:text-accent" href="mailto:{{ business.email }}">{{ business.email }}</a></div>
         </div>
         <div>
-          <a class="text-decoration-none me-3" href="/about">About</a>
-          <a class="text-decoration-none" href="/contact">Contact</a>
+          <div class="font-semibold text-slate-800">Locations</div>
+          <ul class="mt-1 space-y-1">
+            {% for loc in business.locations %}<li>{{ loc.city }} — {{ loc.address }}</li>{% endfor %}
+          </ul>
+        </div>
+        <div>
+          <div class="font-semibold text-slate-800">Hours</div>
+          <div class="mt-1">{{ business.hours }}</div>
         </div>
       </div>
     </footer>
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-    {% block scripts %}{% endblock %}
   </body>
 </html>

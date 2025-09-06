@@ -1,11 +1,22 @@
 
 {% extends "base.html" %}
 {% block content %}
-  <h2>About Us</h2>
-  <p>We’re a local car rental and dealership based in Vushtrri and Prishtina, offering reliable rentals and quality used cars. Honest pricing, fast response, and friendly service.</p>
-  <ul>
-    <li>20+ cars for rent</li>
-    <li>20+ cars for sale</li>
-    <li>WhatsApp & phone support</li>
-  </ul>
+  <h2 class="text-2xl font-semibold">About {{ business.name }}</h2>
+  <p class="mt-2 text-slate-700">{{ business.description }}</p>
+  <div class="mt-4 grid md:grid-cols-2 gap-6">
+    <div class="p-6 rounded-2xl border bg-white shadow-sm">
+      <div class="font-semibold">Why choose us</div>
+      <ul class="mt-2 list-disc list-inside text-slate-700 space-y-1">
+        <li>Clean, reliable cars</li>
+        <li>Fast WhatsApp booking</li>
+        <li>Transparent pricing</li>
+      </ul>
+    </div>
+    <div class="p-6 rounded-2xl border bg-white shadow-sm">
+      <div class="font-semibold">Service areas</div>
+      <ul class="mt-2 text-slate-700 space-y-1">
+        {% for loc in business.locations %}<li>{{ loc.city }} — {{ loc.address }}</li>{% endfor %}
+      </ul>
+    </div>
+  </div>
 {% endblock %}

@@ -1,26 +1,27 @@
 
 {% extends "base.html" %}
 {% block content %}
-  <h2>Contact</h2>
-  <p class="text-muted">Update your phone and WhatsApp number in <code>data/cars.json</code> (contact field) so each car page has the correct buttons.</p>
-  <div class="row g-4">
-    <div class="col-md-6">
-      <div class="p-4 border rounded-3 h-100">
-        <h5>Phone</h5>
-        <p><a href="tel:+38345432432">+383 45 432 432</a></p>
-        <h5>WhatsApp</h5>
-        <p><a href="https://wa.me/38345432432">wa.me/38345432432</a></p>
-        <h5>Address</h5>
-        <p>Vushtrri and Prishtina, Kosova</p>
-      </div>
+  <h2 class="text-2xl font-semibold">Contact</h2>
+  <div class="grid md:grid-cols-2 gap-6 mt-4">
+    <div class="p-6 rounded-2xl border bg-white shadow-sm">
+      <div class="font-semibold">Call / WhatsApp</div>
+      <p class="mt-1"><a class="text-accent" href="tel:{{ business.phone | replace(' ','') }}">{{ business.phone }}</a></p>
+      <p><a class="text-accent" href="https://wa.me/{{ business.phone | replace('+','') }}">wa.me/{{ business.phone | replace('+','') }}</a></p>
+      <div class="font-semibold mt-4">Email</div>
+      <p><a class="text-accent" href="mailto:{{ business.email }}">{{ business.email }}</a></p>
+      <div class="font-semibold mt-4">Hours</div>
+      <p>{{ business.hours }}</p>
     </div>
-    <div class="col-md-6">
-      <div class="p-4 border rounded-3 h-100">
-        <h5>Business Hours</h5>
-        <p>Mon–Sat: 09:00–18:00<br>Sun: Closed</p>
-        <h5>Email</h5>
-        <p><a href="mailto:info@yourshop.com">info@yourshop.com</a></p>
+    <div class="space-y-4">
+      {% for loc in business.locations %}
+      <div class="p-3 rounded-2xl border bg-white shadow-sm">
+        <div class="font-semibold">{{ loc.city }}</div>
+        <div class="text-slate-700">{{ loc.address }}</div>
+        <iframe class="w-full rounded-xl mt-2" height="220" loading="lazy"
+          referrerpolicy="no-referrer-when-downgrade"
+          src="https://www.google.com/maps?q={{ (loc.address)|urlencode }}&output=embed"></iframe>
       </div>
+      {% endfor %}
     </div>
   </div>
 {% endblock %}
