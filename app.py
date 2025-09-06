@@ -1,66 +1,104 @@
 
-from flask import Flask, render_template, jsonify, request, abort
-import json
-import os
+from flask import Flask, render_template, jsonify, request, abort, Response, url_for
+import json, os
+from datetime import datetime
 
 app = Flask(__name__)
 
-DATA_PATH = os.path.join(os.path.dirname(__file__), "data", "cars.json")
+ROOT = os.path.dirname(__file__)
+CARS_PATH = os.path.join(ROOT, "data", "cars.json")
+BUSINESS_PATH = os.path.join(ROOT, "data", "business.json")
 
 def load_cars():
-    with open(DATA_PATH, "r", encoding="utf-8") as f:
+    with open(CARS_PATH, "r", encoding="utf-8") as f:
         return json.load(f)
+
+def load_business():
+    if not os.path.exists(BUSINESS_PATH):
+        return {
+            "name": "Your Business Name",
+            "tagline": "Rent or buy your next car — fast & easy",
+            "phone": "+355 6xx xxx xxx",
+            "email": "info@yourshop.com",
+            "whatsapp": "+355 6xx xxx xxx",
+            "address": "Tirana, Albania",
+            "hours": "Mon–Sat 09:00–18:00",
+            "domain": "",
+            "description": "Car rental and dealership in Tirana."
+        }
+    with open(BUSINESS_PATH, "r", encoding="utf-8") as f:
+        return json.load(f)
+
+BUSINESS = load_business()
+
+@app.context_processor
+def inject_business():
+    return dict(business=BUSINESS)
 
 @app.route("/")
 def home():
-    return render_template("home.html")
+    return render_template("home.html", title=f"{BUSINESS['name']} — Rentals & Sales")
 
 @app.route("/inventory")
 def inventory():
-    # optional type filter via query (?type=rent/sale)
     car_type = request.args.get("type")
-    return render_template("inventory.html", car_type=car_type)
+    return render_template("inventory.html", car_type=car_type, title=f"Inventory — {BUSINESS['name']}")
 
 @app.route("/cars/<car_id>")
 def car_detail(car_id):
     cars = load_cars()
     car = next((c for c in cars if c.get("id") == car_id), None)
-    if not car:
-        abort(404)
-    return render_template("car_detail.html", car=car)
+    if not car: abort(404)
+    return render_template("car_detail.html", car=car, title=f"{car.get('year','')} {car.get('make','')} {car.get('model','')} — {BUSINESS['name']}")
 
 @app.route("/about")
 def about():
-    return render_template("about.html")
+    return render_template("about.html", title=f"About — {BUSINESS['name']}")
 
 @app.route("/contact")
 def contact():
-    return render_template("contact.html")
+    return render_template("contact.html", title=f"Contact — {BUSINESS['name']}")
 
-# Simple JSON API with filters: ?q=... & type=rent|sale
 @app.route("/api/cars")
 def api_cars():
     cars = load_cars()
-    q = request.args.get("q", "").strip().lower()
-    type_filter = request.args.get("type", "").strip().lower()
-
-    def matches(car):
-        if type_filter and car.get("type","").lower() != type_filter:
-            return False
-        if not q:
-            return True
-        hay = " ".join([
-            str(car.get("make","")),
-            str(car.get("model","")),
-            str(car.get("year","")),
-            str(car.get("fuel","")),
-            str(car.get("color","")),
-            str(car.get("transmission","")),
-        ]).lower()
+    q = request.args.get("q", "").lower()
+    t = request.args.get("type", "").lower()
+    def matches(c):
+        if t and c.get("type","").lower() != t: return False
+        if not q: return True
+        hay = " ".join([str(c.get(k,"")) for k in ["make","model","year","fuel","color","transmission"]]).lower()
         return q in hay
+    return jsonify([c for c in cars if matches(c)])
 
-    filtered = [c for c in cars if matches(c)]
-    return jsonify(filtered)
+@app.route("/robots.txt")
+def robots():
+    lines = ["User-agent: *","Allow: /"]
+    dom = BUSINESS.get("domain","").strip()
+    sitemap = f"https://{dom}/sitemap.xml" if dom else f"{request.url_root.rstrip('/')}/sitemap.xml"
+    lines.append(f"Sitemap: {sitemap}")
+    return Response("\n".join(lines), mimetype="text/plain")
+
+@app.route("/sitemap.xml")
+def sitemap():
+    cars = load_cars()
+    pages = [
+        (url_for('home', _external=True), datetime.utcnow()),
+        (url_for('inventory', _external=True), datetime.utcnow()),
+        (url_for('about', _external=True), datetime.utcnow()),
+        (url_for('contact', _external=True), datetime.utcnow()),
+    ]
+    for c in cars:
+        pages.append((url_for('car_detail', car_id=c.get('id'), _external=True), datetime.utcnow()))
+    xml = ['<?xml version="1.0" encoding="UTF-8"?>','<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">']
+    for loc,dt in pages:
+        xml.append("<url><loc>%s</loc><lastmod>%s</lastmod></url>" % (loc, dt.strftime("%Y-%m-%d")))
+    xml.append("</urlset>")
+    return Response("\n".join(xml), mimetype="application/xml")
+
+@app.errorhandler(404)
+def not_found(e):
+    return render_template("404.html", title="Not found"), 404
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000, debug=True)
