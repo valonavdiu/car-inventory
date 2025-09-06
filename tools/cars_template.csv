@@ -1,0 +1,4 @@
+
+id,type,make,model,year,fuel,transmission,seats,color,odometer,price_per_day,price,images,contact_name,contact_phone,contact_email
+rent-unique-1,rent,Toyota,Corolla,2021,Petrol,Automatic,5,White,32000,35,,https://...;https://...,Rental Desk,+355 6xx xxx xxx,rentals@yourshop.com
+sale-unique-1,sale,Volkswagen,Golf 7,2019,Diesel,Manual,5,Blue,74000,,11800,https://...;https://...,Sales,+355 6xx xxx xxx,sales@yourshop.com

@@ -1,0 +1,86 @@
+[
+  {
+    "id": "rent-corolla-2021-white",
+    "type": "rent",
+    "make": "Toyota",
+    "model": "Corolla",
+    "year": 2021,
+    "fuel": "Petrol",
+    "transmission": "Automatic",
+    "seats": 5,
+    "color": "White",
+    "odometer": 32000,
+    "price_per_day": 35,
+    "images": [
+      "https://images.pexels.com/photos/170811/pexels-photo-170811.jpeg?auto=compress&cs=tinysrgb&w=800"
+    ],
+    "contact": {
+      "name": "Rental Desk",
+      "phone": "+355 6xx xxx xxx",
+      "email": "rentals@yourshop.com"
+    }
+  },
+  {
+    "id": "rent-golf-2018-blue",
+    "type": "rent",
+    "make": "Volkswagen",
+    "model": "Golf 7",
+    "year": 2018,
+    "fuel": "Diesel",
+    "transmission": "Manual",
+    "seats": 5,
+    "color": "Blue",
+    "odometer": 74000,
+    "price_per_day": 28,
+    "images": [
+      "https://images.pexels.com/photos/358070/pexels-photo-358070.jpeg?auto=compress&cs=tinysrgb&w=800"
+    ],
+    "contact": {
+      "name": "Rental Desk",
+      "phone": "+355 6xx xxx xxx",
+      "email": "rentals@yourshop.com"
+    }
+  },
+  {
+    "id": "sale-civic-2020-grey",
+    "type": "sale",
+    "make": "Honda",
+    "model": "Civic",
+    "year": 2020,
+    "fuel": "Petrol",
+    "transmission": "Automatic",
+    "seats": 5,
+    "color": "Grey",
+    "odometer": 41000,
+    "price": 15500,
+    "images": [
+      "https://images.pexels.com/photos/97075/pexels-photo-97075.jpeg?auto=compress&cs=tinysrgb&w=800"
+    ],
+    "contact": {
+      "name": "Sales",
+      "phone": "+355 6xx xxx xxx",
+      "email": "sales@yourshop.com"
+    }
+  },
+  {
+    "id": "sale-seed-2019-black",
+    "type": "sale",
+    "make": "Kia",
+    "model": "Ceed",
+    "year": 2019,
+    "fuel": "Diesel",
+    "transmission": "Manual",
+    "seats": 5,
+    "color": "Black",
+    "odometer": 60000,
+    "price": 11800,
+    "images": [
+      "https://images.pexels.com/photos/130656/pexels-photo-130656.jpeg?auto=compress&cs=tinysrgb&w=800"
+    ],
+    "contact": {
+      "name": "Sales",
+      "phone": "+355 6xx xxx xxx",
+      "email": "sales@yourshop.com"
+    }
+  }
+]
