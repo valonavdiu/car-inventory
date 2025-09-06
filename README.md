@@ -1,5 +1,5 @@
 
-# AutoHub — Car Rentals & Sales (Flask)
+# Rent a Car Flamuri — Car Rentals & Sales (Flask)
 
 A simple, phone-friendly website for your car rental and dealership.
 - Browse inventory (filters + search)
